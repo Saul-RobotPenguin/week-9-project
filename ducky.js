@@ -1,4 +1,4 @@
-window.onload = function() {
+window.onload = function () {
   const body = document.body;
 
   console.log(body);
@@ -26,9 +26,46 @@ window.onload = function() {
   // 6. Now we will organize this better. Let's create
   //    a "function" called createDuck() that does everything in 1-4
   //    and "returns" the duck object
+  function createDuck() {
+    let div = document.createElement("div");
+    div.classList.add("duck");
+    document.body.appendChild(div);
+
+    setInterval(function () {
+      div.classList.toggle("flap");
+    }, 250);
+
+    function moveDuck(duck) {
+      let duckMovesLeft = Math.random() * window.innerWidth;
+      let duckMovesTop = Math.random() * window.innerHeight;
+      div.style.left = `${duckMovesLeft}px`;
+      div.style.top = `${duckMovesTop}px`;
+
+      div.addEventListener("click", function () {
+        div.classList.add("shot");
+        setTimeout(function () {
+          div.remove();
+          checkForWinner();
+        }, 1000);
+      });
+      function checkForWinner() {
+        let duckLength = document.getElementsByClassName("duck");
+        if (duckLength.length == 0) {
+          alert("You win!");
+        }
+      }
+    }
+
+    moveDuck();
+    setInterval(moveDuck, 1000);
+    return duck;
+  }
 
   // 7. Now, let's create lots of ducks!  Use a "for" loop to create 5 ducks
   //    using our fancy new createDuck() function
+  for (let i = 0; i < 6; i++) {
+    createDuck();
+  }
 
   // 8. The ducks are overlapping.  Modify createDuck so each time
   //     it creates a duck, it appears in a random location
